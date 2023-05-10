@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+لیست تیکت ها
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">لیست تیکت های ارسال شده</h1><br><br><br>
+{% if tickets %}
+    <table class="table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">عنوان تیکت</th>
+                <th scope="col">توضیحات</th>
+                <th scope="col">وضعیت تیکت</th>
+                <th scope="col">مشاهده پاسخ</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            {% set index = namespace(value=0) %}
+            {% for ticket in tickets %}
+            {% set index.value = index.value + 1 %}
+            <tr>
+                <th scope="row">{{ index.value }}</th>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.description | truncate(20,True) }}</td>
+                <td>
+                    {% if not ticket.is_modified %}
+                        <span class="text-danger">در حال بررسی</span>
+                    {% else %}
+                        <span class="text-success">بررسی شده</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not ticket.is_modified %}
+                        <span class="text-danger">-</span>
+                    {% else %}
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{ ticket.id }}">
+                            مشاهده پاسخ
+                        </button>
+                      
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{ ticket.id }}" tabindex="-1" aria-labelledby="exampleModal{{ ticket.id }}Label" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModal{{ ticket.id }}Label">پاسخ ارسال شده</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><b><span>عنوان تیکت: </span></b>{{ ticket.title }}</h5>
+                                      <p class="card-text"><b><span>توضیحات تیکت: </span></b>{{ ticket.description }}</p>
+                                      <hr>
+                                      <b><span>پاسخ ارسال شده: </span></b><p class="card-text text-success">{{ ticket.response }}</p>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+  
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+<b><p>تاکنون تیکتی را ارسال نکرده اید.</p></b>
+{% endif %}
+{% endblock %}

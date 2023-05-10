@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block title %}
+لیست سفارشات
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">لیست سفارشات</h1><br><br><br>
+{% if orders %}
+    <table class="table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">کد سفارش</th>
+                <th scope="col">قیمت محصول</th>
+                <th scope="col">کد تخفیف استفاده شده</th>
+                <th scope="col">میزان کد تخفیف اعمالی</th>
+                <th scope="col">مشاهده پاسخ</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            {% set index = namespace(value=0) %}
+            {% for order in orders %}
+            {% set index.value = index.value + 1 %}
+            <tr>
+                <th scope="row">{{ index.value }}</th>
+                <td>{{ order.code }}</td>
+                <td>{{ order.price }}$</td>
+                <td>
+                    {% if order.discount_code %}
+                    {{ order.discount_code }}
+                    {% else %}
+                    <span class="text-danger">-</span>
+                    {% endif %}
+                </td>
+                <td>{{ order.discount_value }}%</td>
+                <td>
+                    {% if order.status == 0 %}
+                    <span class="text-danger">در حال پردازش</span>
+                    {% else %}
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{ order.id }}">
+                        مشاهده پاسخ
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{ order.id }}" tabindex="-1" aria-labelledby="exampleModal{{ order.id }}Label" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModal{{ order.id }}Label">پاسخ ارسال شده</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                      <h5 class="card-title"><b>سفارش</b></h5>
+                                      <div class="card-text">
+                                        <p><b>کد سفارش: </b>{{ order.code }}</p>
+                                        <p><b>هزینه محصول: </b>{{ order.price }}$</p>
+                                        <p><b>کد تخفیف استفاده شده: </b>
+                                            {% if order.discount_code %}
+                                            <span class="text-danger">{{ order.discount_code }}</span>
+                                            {% else %}
+                                            <span class="text-danger">عدم استفاده کد تخفیف</span>
+                                            {% endif %}
+                                        </p>
+                                        <p><b>میزان بهره مندی از کد تخفیف:</b>{{ order.discount_value }}%</p>
+                                        <hr>
+                                        <p><b>پاسخ ادمین: </b>
+                                            {% if order.status == 1 %}
+                                            <span class="text-success">موفقیت آمیز</span>
+                                            {% elif order.status == -1 %}
+                                            <span class="text-danger">عدم قبول کد ارسالی</span>
+                                            {% else %}
+                                            <span class="text-danger">برنده نشدید</span>
+                                            {% endif %}
+                                        </p>
+                                        {% if order.status == 1 %}
+                                            <p><b>یوزرنیم: </b>{{ order.username_assigned }}</p>
+                                            <p><b>پسورد: </b>{{ order.password_assigned }}</p>
+                                        {% endif %}
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+<b><p>تاکنون سفارشی را ثبت نکرده اید.</p></b>
+{% endif %}
+{% endblock %}

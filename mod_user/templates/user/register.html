@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+ثبت نام
+{% endblock %}
+
+{% block head %}
+<style>
+  body{
+    background-image: url("{{ url_for('static',filename='pics/tradechart.jpg') }}");  background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-12 col-md-9 col-xl-7 container justify-content-center">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-text">
+          <form action="{{ url_for('user.register') }}" method="post" class="bg-white rounded p-4">
+            {{ form.hidden_tag() }}
+    
+            <div class="form-group row mb-4">
+              {{ form.email.label(class="col-sm-4 col-form-label fw-bold") }}
+              <div class="col-sm-8">
+                {{ form.email(class="form-control") }}
+                {{ field_error(form.email) }}
+              </div>
+            </div>
+    
+            <div class="form-group row mb-4">
+              {{ form.idnumber.label(class="col-sm-4 col-form-label fw-bold") }}
+              <div class="col-sm-8">
+                {{ form.idnumber(class="form-control") }}
+                {{ field_error(form.idnumber) }}
+              </div>
+            </div>
+    
+            <div class="form-group row mb-4">
+              {{ form.address.label(class="col-sm-4 col-form-label fw-bold") }}
+              <div class="col-sm-8">
+                {{ form.address(class="form-control") }}
+                {{ field_error(form.address) }}
+              </div>
+            </div>
+    
+    
+            <div class="form-group row mb-4">
+              {{ form.username.label(class="col-sm-4 col-form-label fw-bold") }}
+              <div class="col-sm-8">
+                {{ form.username(class="form-control") }}
+                {{ field_error(form.username) }}
+              </div>
+            </div>
+    
+            <div class="form-group row mb-4">
+              {{ form.password.label(class="col-sm-4 col-form-label fw-bold") }}
+              <div class="col-sm-8">
+                {{ form.password(class="form-control") }}
+                {{ field_error(form.password) }}
+              </div>
+            </div>
+    
+            <div class="form-group row mb-4">
+              {{ form.password_confirm.label(class="col-sm-4 col-form-label fw-bold") }}
+              <div class="col-sm-8">
+                {{ form.password_confirm(class="form-control") }}
+                {{ field_error(form.password_confirm) }}
+              </div>
+            </div>
+    
+            <div class="mb-3">
+              <div class="text-center">
+                <div class="col-auto">{{ form.submit(class="btn btn-success btn-lg") }}</div>
+              </div>
+              <div class="mt-4 text-center fw-bold">
+                <div>آیا ثبت نام کرده اید ؟ <a href="{{url_for('user.login')}}" class="link-primary">ورود</a>
+                </div>
+              </div>
+            </div>
+    
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+    پاسخ به تیکت
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><b>{{ ticket.title }}</b></h5>
+              <hr>
+              <p class="card-text lead">{{ ticket.description }}</p>
+              <form action="{{ url_for('admin.ticket_response', ticket_id = ticket.id) }}" method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group row mb-4">
+                    <b>{{ form.response.label(class="col-sm-4 col-form-label", value = ticket.response) }}</b>
+                    <div class="col-sm-8">
+                      {{ form.response(class="form-control") }}
+                      {{ field_error(form.response) }}
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="container">
+                      <div class="row justify-content-md-center">
+                        <div class="col-auto">{{ form.submit(class="btn btn-success btn-lg") }}</div>
+                      </div>
+                    </div>
+                  </div>           
+              </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

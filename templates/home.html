@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    خانه
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/home.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/rules.css')}}">
+{% endblock %}
+
+{% block content %}
+<div class="h3 bg">
+    <div class="float-left ml-5 rounded">
+        <img class="rounded" src="{{ url_for('static',filename = 'pics/chart.jpg') }}" width="450"
+             height="150"/>
+    </div>
+    <div class="mb-1 h1 slogan_text"><img src="{{ url_for('static',filename = 'pics/logoGold.png') }}" width="80"
+                                          height="80"/>
+        فرصتی طلایی برای ورود به بازار
+    </div>
+    <div class="slogan_line mt-1">
+    </div>
+</div>
+<div class="description_container flex-column">
+    <div class="float-left w-50">
+        <div class="h1 text-center mb-3 mt-3">تامین سرمایه&zwnj;ی معامله گران</div>
+        <span class="mt-2 h2"> DEAL PALACE  با ارائه&zwnj;ی بهترین تعرفه ها سرمایه&zwnj;ی شما برای ورود به بازار&zwnj;های مالی را تامین می&zwnj;کند.</span>
+        <span class="mt-2 h2"> این مجموعه  با پشتیبانی 24 ساعته شما را همراهی می&zwnj;کند تا با کاهش ریسک&zwnj;های معامله، از هنر معامله&zwnj;گریتان استفاده کنید و با اطمینان خاطر در مسیر آرزو&zwnj;هایتان قدم بردارید.
+        </span>
+    </div>
+    <div><img class="rounded" src="{{ url_for('static',filename = 'pics/tradeData.PNG') }}" width="600"
+              height="400"/></div>
+
+    <div class="rules_card_container mt-5">
+        <div class="rules_card">
+            <div class="rules_card_title mt-3"> خرید</div>
+            <div class="rules_card_text mt-0">در قسمت تعرفه&zwnj;ها می&zwnj;توانید تعرفه&zwnj;ی مورد نظر خود را انتخاب کنید و با انتخاب گزینه&zwnj;ی خرید وارد صفحه&zwnj;ی خرید شوید. خرید شما در اسرع وقت پس از تایید نهایی انجام می&zwnj;شود و رمز حساب برای شما ایمیل می&zwnj;شود. همچنین از طریق پنل کاربری این خرید قابل پیگیری می&zwnj;باشد.</div>
+        </div>
+        <div class="rules_card">
+            <div class="rules_card_title mt-3"> پنل کاربری</div>
+            <div class="rules_card_text mt-0">پس از ثبت نام و ورود پنل کاربری برای شما فعال می&zwnj;شود. در پنل کاربری میتوانید لیست خرید ها و وضعیت هر خرید را مشاهده کنید. همچنین نمودار عملکرد برای هر کدام از تعرفه&zwnj;های خریداری شده در این صفحه قابل مشاهده است. </div>
+        </div>                <div class="rules_card">
+            <div class="rules_card_title mt-3"> برداشت وجه</div>
+            <div class="rules_card_text mt-0">پس از با موفقیت گذراندن مرحله دوم چالش، مبلغ دریافت شده برای آزمون به علاوه 5% از سود چالش مرحله دوم با اولین برداشت به تریدر محترم داده می‌شود.</div>
+        </div>                <div class="rules_card">
+            <div class="rules_card_title mt-3"> قوانین و مقررات</div>
+            <div class="rules_card_text mt-0">در بخش قوانین و مقررات کلیه&zwnj;ی قوانین ثبت شده است که بایستی قبل از خرید به طور کامل مطالعه شود.</div>
+        </div>
+    </div>
+
+    <div class="h1 mt-5 mb-3">تعرفه ها</div>
+    <div class="rules_card_container mt-2 mr-4">
+        <div class="buy_card_container">
+            <div class="buy_card position-relative">
+                <div class="card_row mt-0"> 5000$</div>
+                <div class="card_text mt-0">Trade smarter, not harder, with our affordable card</div>
+                <div class="card_price">price: 51$</div>
+            </div>
+            <img class="float-left d-inline-block position-relative" src="{{ url_for('static',filename='pics/logo1.png') }}"
+                 width="40"
+                 height="40"/>
+            <div class="card_sym position-relative">DEAL PALACE</div>
+        </div>
+        <div class="buy_card_container">
+            <div class="buy_card">
+                <div class="card_row mt-0"> 10000$</div>
+                <div class="card_text mt-0">Serious traders choose our premium card for an edge in the market
+                </div>
+                <div class="card_price">price: 82$</div>
+            </div>
+            <img class="float-left d-inline-block" src="{{ url_for('static',filename='pics/logo1.png') }}" width="40"
+                 height="40"/>
+            <div class="card_sym">DEAL PALACE</div>
+        </div>
+        <div class="buy_card_container">
+            <div class="buy_card">
+                <div class="card_row mt-0"> 25000$</div>
+                <div class="card_text mt-0">Maximize your trading potential with our exclusive card</div>
+                <div class="card_price">price: 153$</div>
+            </div>
+            <img class="float-left d-inline-block" src="{{ url_for('static',filename='pics/logo1.png') }}" width="40"
+                 height="40"/>
+            <div class="card_sym">DEAL PALACE</div>
+        </div>
+        <div class="buy_card_container">
+            <div class="buy_card">
+                <div class="card_row mt-0"> 50000$</div>
+                <div class="card_text mt-0">Elite traders trust our card for top-tier benefits and access</div>
+                <div class="card_price">price: 294$</div>
+            </div>
+            <img class="float-left d-inline-block" src="{{ url_for('static',filename='pics/logo1.png') }}" width="40"
+                 height="40"/>
+            <div class="card_sym">DEAL PALACE</div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

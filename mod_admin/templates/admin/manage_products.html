@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+    مدیریت محصولات
+{% endblock %}
+
+{% block head %}
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    appearance: textfield;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">مدیریت محصولات</h1><br><br><br>
+
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">تعرفه</th>
+            <th scope="col">سود اولیه</th>
+            <th scope="col">سود ثانویه</th>
+            <th scope="col">هزینه تعرفه</th>
+            <th scope="col">کاهش سود روزانه</th>
+            <th scope="col">ورژن متاتریدر</th>
+            <th scope="col">عملیات</th>
+            </tr>
+        </thead>
+    
+        <tbody class="table-group-divider">
+            {% set index = namespace(value=0) %}
+            <form action="{{ url_for('admin.manage_products') }}" method="post">
+                {{ form.hidden_tag() }}
+                <tr>
+                    <td><b>ثبت محصول جدید</b></td>
+                    <td>
+                        {{ form.tariff(class="form-control") }}
+                        {{ field_error(form.tariff) }}
+                    </td>
+                    <td>
+                        {{ form.profit_first(class="form-control") }}
+                        {{ field_error(form.profit_first) }}
+                    </td>
+                    <td>
+                        {{ form.profit_second(class="form-control") }}
+                        {{ field_error(form.profit_second) }}
+                    </td>
+                    <td>
+                        {{ form.cost(class="form-control") }} 
+                        {{ field_error(form.cost) }}
+                    </td>
+                    <td>
+                        {{ form.daily_drawdown(class="form-control") }} 
+                        {{ field_error(form.daily_drawdown) }}
+                    </td>
+                    <td>
+                        {{ form.metatrader_platform(class="form-control") }} 
+                        {{ field_error(form.metatrader_platform) }}
+                    </td>
+                    <td>
+                        {{ form.submit(class="btn btn-success") }}
+                    </td>
+                </tr>
+            </form>
+    
+            {% for product in products %}
+            {% set index.value = index.value + 1 %}
+            <tr>
+                <th scope="row">{{ index.value }}</th>
+                <td>{{ product.tariff }} $</td>
+                <td>{{ product.profit_first }} $</td>
+                <td>{{ product.profit_second }} $</td>
+                <td>{{ product.cost }} $</td>
+                <td>{{ product.daily_drawdown }} %</td>
+                <td>Version {{ product.metatrader_platform }}</td>
+                <td><a href="{{ url_for('admin.remove_product' , product_id = product.id) }}"><button type="button" class="btn btn-danger">حذف</button></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

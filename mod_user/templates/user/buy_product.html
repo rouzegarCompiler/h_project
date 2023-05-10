@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+    خرید محصول
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">خرید محصول</h1><br><br><br>
+
+<form action="{{ url_for('user.buy_product' , item = item_selected) }}" method="post">
+{{ form.hidden_tag() }}
+
+<div class="form-group row mb-4">
+    {{ form.code.label(class="col-sm-4 col-form-label") }}
+    <div class="col-sm-8">
+    {{ form.code(class="form-control") }}
+    {{ field_error(form.code) }}
+    </div>
+</div>
+
+<div class="form-group row mb-4">
+    {{ form.discount_code.label(class="col-sm-4 col-form-label") }}
+    <div class="col-sm-8">
+    {{ form.discount_code(class="form-control") }}
+    {{ field_error(form.discount_code) }}
+    </div>
+</div>
+
+<p class="text-center" ><b id="product_price">{{ product_price }}</b>$</p>
+<p class="text-center"><b id="disount_product_price"></b></p>
+
+<div class="form-group row">
+    <div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-auto">{{ form.submit(class="btn btn-success btn-lg") }}</div>
+        <div class="col-auto"><button class="btn btn-warning btn-lg" id="check_discount_code">اعمال کد تخفیف</button></div>
+    </div>
+    </div>
+</div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/jquery-3.6.4.min.js') }}"></script>
+<script>
+    $(function(){
+        $('#check_discount_code').on("click",function(event){
+        console.log("entered")
+        event.preventDefault();
+        if($('#discount_code').val() != ""){
+            $.ajax({
+                url: "{{ url_for('check_discount_code') }}",
+                type: 'get',
+                contentType: 'application/json',
+                data:{
+                    discount_code: $('#discount_code').val(),
+                    product_id: "{{ item_selected }}"
+                },
+                success: function(response){
+                    if (response.status == "valid"){
+                        if($('#disount_product_price').hasClass("text-danger")){
+                            $('#disount_product_price').removeClass("text-danger")
+                        }
+                        $('#disount_product_price').addClass("text-success")
+                        $('#product_price').addClass('text-decoration-line-through')
+                        $('#disount_product_price').text((response.price*(100-response.discount_value)/100).toFixed(2) + '$')
+                    }
+                    else{
+                        if($('#disount_product_price').hasClass("text-success")){
+                            $('#disount_product_price').removeClass("text-success")
+                        }
+                        $('#disount_product_price').addClass("text-danger")
+                        $('#disount_product_price').text('کد تخفیف وارد شده صحیح نیست')
+                        if($('#product_price').hasClass('text-decoration-line-through')){
+                            $('#product_price').removeClass('text-decoration-line-through')
+                        }
+                    }
+                }
+            })
+        }
+    });
+});
+    
+</script>
+{% endblock %}

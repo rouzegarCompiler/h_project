@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+لیست تیکت های کاربر
+{% endblock %}
+
+{% block content %}
+
+{% if user %}
+<h1 class="text-center pt-4">لیست تیکت های {{ user.username }}</h1><br><br><br>
+    {% if user.tickets | count > 0 %}
+    <table class="table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">عنوان تیکت</th>
+                <th scope="col">توضیحات</th>
+                <th scope="col">اقدام</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            {% set index = namespace(value=0) %}
+            {% for ticket in user.tickets|reverse %}
+            {% set index.value = index.value + 1 %}
+            <tr>
+                <th scope="row">{{ index.value }}</th>
+                <td>{{ ticket.title }}</td>
+                <td>{{ ticket.description | truncate(20,True) }}</td>
+                <td>
+                    <a href="{{ url_for('admin.ticket_response', ticket_id = ticket.id) }}">
+                        {% if ticket.is_modified %}
+                        <button type="button" class="btn btn-warning "> ویرایش پاسخ</button>
+                        {% else %}
+                            <button type="button" class="btn btn-success "> ارسال پاسخ</button>
+                        {% endif %}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <b><p>این کاربر تاکنون تیکتی را ثبت نکرده است.</p></b>
+    {% endif %}
+    {% endif %}
+
+{% endblock %}

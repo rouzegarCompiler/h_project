@@ -1,0 +1,8 @@
+.question_submit_btn {
+    width: 50%;
+    margin-top: 25px;
+    margin-right: 100px;
+    border-radius: 5px;
+    color: white;
+    background-color: #1e7e34;
+}

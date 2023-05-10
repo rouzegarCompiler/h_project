@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    لیست کاربران
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">لیست کاربران</h1><br><br><br>
+{% if users %}
+<table class="table table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">نام کاربری</th>
+        <th scope="col">تغییر اطلاعات</th>
+        <th scope="col">لیست تیکت ها</th>
+        <th scope="col">لیست سفارشات</th>
+        </tr>
+    </thead>
+
+    <tbody class="table-group-divider">
+        {% set index = namespace(value=0) %}
+        {% for user in users %}
+        {% set index.value = index.value + 1 %}
+        <tr>
+            <th scope="row">{{ index.value }}</th>
+            <td>{{ user.username }}</td>
+            <td><a href="{{ url_for('admin.change_user_info' , user_id = user.id) }}"><button type="button" class="btn btn-warning">تغییر</button></a></td>
+            <td><a href="{{ url_for('admin.list_user_tickets' , user_id = user.id) }}"><button type="button" class="btn btn-primary"> نمایش</button></a></td>
+            <td><a href="{{ url_for('admin.list_user_orders' , user_id = user.id) }}"><button type="button" class="btn btn-success"> نمایش</button></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <b><p>کاربری در این سامانه تاکنون ثبت نام نکرده است.</p></b>
+{% endif %}
+
+{% endblock %}

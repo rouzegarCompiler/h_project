@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    حساب کاربری
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row g-3">
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">لیست کاربران</h5>
+                <a href="{{ url_for('admin.list_users') }}" class="btn btn-primary btn-lg">نمایش</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">لیست تیکت ها</h5>
+                <a href="{{ url_for('admin.list_tickets') }}" class="btn btn-primary btn-lg">نمایش</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">لیست سفارشات</h5>
+                <a href="{{ url_for('admin.list_orders') }}" class="btn btn-primary btn-lg">نمایش</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">مدیریت کد تخفیف ها</h5>
+                <a href="{{ url_for('admin.manage_discount_codes') }}" class="btn btn-primary btn-lg">انتخاب</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">مدیریت محصولات</h5>
+                <a href="{{ url_for('admin.manage_products') }}" class="btn btn-primary btn-lg">انتخاب</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

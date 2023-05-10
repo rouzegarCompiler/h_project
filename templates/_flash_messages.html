@@ -1,0 +1,14 @@
+{% with messages=get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+    <div class="bg-white p-2 rounded my-2">
+        <div class="container">
+            <ul style="list-style-type: square;">
+                {% for category,message in messages %}
+                    <li class="fw-bold text-{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <hr>
+    {% endif %}
+{% endwith %}

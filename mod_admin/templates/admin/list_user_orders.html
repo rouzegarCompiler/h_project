@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+لیست سفارشات کاربر
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">لیست سفارشات کاربر {{ user.username }}</h1><br><br><br>
+{% if user.orders | count > 0 %}
+    <div class="table-responsive">
+      <table class="table table-hover table-striped table-responsive">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">کد سفارش</th>
+                <th scope="col">قیمت محصول</th>
+                <th scope="col">کد تخفیف استفاده شده</th>
+                <th scope="col">میزان کد تخفیف اعمالی</th>
+                <th scope="col">عملیات</th>
+            </tr>
+        </thead>
+
+        <tbody class="table-group-divider">
+            {% set index = namespace(value=0) %}
+            {% for order in user.orders|reverse %}
+            {% set index.value = index.value + 1 %}
+            <tr>
+                <th scope="row">{{ index.value }}</th>
+                <td>{{ order.code }}</td>
+                <td>{{ order.price }}$</td>
+                <td>
+                    {% if order.discount_code %}
+                    {{ order.discount_code }}
+                    {% else %}
+                    <span class="text-danger">-</span>
+                    {% endif %}
+                </td>
+                <td>{{ order.discount_value }}%</td>
+                <td>
+                    {% if order.status == 0 %}
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal{{ order.id }}">
+                        پاسخ
+                    </button>
+                    {% else %}
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal{{ order.id }}">
+                        ویرایش
+                    </button>
+                    {% endif %}
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{ order.id }}" tabindex="-1" aria-labelledby="exampleModal{{ order.id }}Label" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModal{{ order.id }}Label">سفارش کاربر</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card">
+                                    <div class="card-body">
+                                      <div class="card-text">
+                                        <p><b>کد سفارش: </b>{{ order.code }}</p>
+                                        <p><b>هزینه محصول: </b>{{ order.price }}$</p>
+                                        <p><b>کد تخفیف استفاده شده: </b>
+                                            {% if order.discount_code %}
+                                            <span class="text-success">{{ order.discount_code }}</span>
+                                            {% else %}
+                                            <span class="text-danger">عدم استفاده کد تخفیف</span>
+                                            {% endif %}
+                                        </p>
+                                        <p><b>میزان بهره مندی از کد تخفیف:</b>{{ order.discount_value }}%</p>
+                                        <hr>
+
+                                        <form action="{{ url_for('admin.reply_order' , order_id = order.id) }}" method="post">
+                                            {{ form.hidden_tag() }}
+                                            <div class="form-group row mb-4">
+                                                <b>{{ form.username_assigned.label(class="col-sm-4 col-form-label") }}</b>
+                                                <div class="col-sm-8">
+                                                  {{ form.username_assigned(class="form-control" , value = "" if not order.username_assigned else order.username_assigned) }}
+                                                  {{ field_error(form.username_assigned) }}
+                                                </div>
+                                              </div>
+
+                                              <div class="form-group row mb-4">
+                                                <b>{{ form.password_assigned.label(class="col-sm-4 col-form-label") }}</b>
+                                                <div class="col-sm-8">
+                                                  {{ form.password_assigned(class="form-control" , value = "" if not order.password_assigned else order.password_assigned) }}
+                                                  {{ field_error(form.password_assigned) }}
+                                                </div>
+                                              </div>
+
+                                              <div class="form-group row mb-4">
+                                                <b><label for="status" class="col-sm-4 col-form-label">وضعیت:</label></b>
+                                                <div class="col-sm-8">
+                                                  <select name="status" id="status">
+                                                    {% for status in order_status_choices %}
+                                                        <option value="{{ status[0] }}" {% if order.status == status[0] %} selected {% endif %} >{{ status[1] }}</option>
+                                                    {% endfor %}
+                                                  </select>
+                                                </div>
+                                              </div>
+                                              {{ form.submit(class="btn btn-success") }}  
+                                          </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="modal-footer">
+                            
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% else %}
+<b><p>تاکنون کاربر سفارشی را ثبت نکرده است.</p></b>
+{% endif %}
+{% endblock %}

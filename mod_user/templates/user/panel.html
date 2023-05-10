@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    حساب کاربری
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="row g-3">
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">تاریخچه سفارشات</h5>
+                <a href="{{ url_for('user.history_orders') }}" class="btn btn-primary btn-lg">انتخاب</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">ثبت تیکت</h5>
+                <a href="{{ url_for('user.create_ticket') }}" class="btn btn-primary btn-lg">انتخاب</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-xl-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title fw-bold">تاریخچه تیکت ها</h5>
+                <a href="{{ url_for('user.history_tickets') }}" class="btn btn-primary btn-lg">انتخاب</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

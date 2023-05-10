@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+    مدیریت کد های تخفیف
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">مدیریت کد های تخفیف</h1><br><br><br>
+
+<table class="table table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+        <th scope="col">#</th>
+        <th scope="col">کد تخفیف</th>
+        <th scope="col">درصد تخفیف</th>
+        <th scope="col">عملیات</th>
+        </tr>
+    </thead>
+
+    <tbody class="table-group-divider">
+        {% set index = namespace(value=0) %}
+        <form action="{{ url_for('admin.manage_discount_codes') }}" method="post">
+            {{ form.hidden_tag() }}
+            <tr>
+                <td><b>ثبت کد جدید</b></td>
+                <td>
+                    {{ form.code(class="form-control") }}
+                    {{ field_error(form.code) }}
+                </td>
+                <td>
+                    {{ form.value(class="form-control") }}
+                    {{ field_error(form.value) }}
+                </td>
+                <td>
+                    {{ form.submit(class="btn btn-success") }}
+                </td>
+            </tr>
+        </form>
+
+        {% for code in codes %}
+        {% set index.value = index.value + 1 %}
+        <tr>
+            <th scope="row">{{ index.value }}</th>
+            <td>{{ code.code }}</td>
+            <td>{{ code.value }}%</td>
+            <td><a href="{{ url_for('admin.remove_discount_code', code_id = code.id) }}"><button type="button" class="btn btn-danger">حذف</button></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import field_error %}
+
+{% block title %}
+ تغییر اطلاعات کاربر
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center pt-4">تغییر اطلاعات کاربر {{ user.username }}</h1><br><br><br>
+<form action="{{ url_for('admin.change_user_info', user_id = user.id) }}" method="post">
+    {{ form.hidden_tag() }}
+
+    <div class="form-group row mb-4">
+      {{ form.email.label(class="col-sm-4 col-form-label") }}
+      <div class="col-sm-8">
+        {{ form.email(class="form-control") }}
+        {{ field_error(form.email) }}
+      </div>
+    </div>
+
+    <div class="form-group row mb-4">
+      {{ form.idnumber.label(class="col-sm-4 col-form-label") }}
+      <div class="col-sm-8">
+        {{ form.idnumber(class="form-control") }}
+        {{ field_error(form.idnumber) }}
+      </div>
+    </div>
+
+    <div class="form-group row mb-4">
+      {{ form.address.label(class="col-sm-4 col-form-label") }}
+      <div class="col-sm-8">
+        {{ form.address(class="form-control") }}
+        {{ field_error(form.address) }}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="container">
+        <div class="row justify-content-md-center">
+          <div class="col-auto">{{ form.submit(class="btn btn-success btn-lg") }}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+{% endblock %}

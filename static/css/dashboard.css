@@ -1,0 +1,67 @@
+.navbar_page {
+  background-color: #39495c;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar_page ul {
+  list-style-type: none;
+  padding: 0;
+  margin-right: 5%;
+  display: flex;
+}
+
+.navbar_page li {
+  margin: 10px 10px 10px 10px;
+  float: right;
+}
+
+.navbar_page a {
+  display: block;
+  color: white;
+  text-align: center;
+  border-bottom: 2px solid #CC9670;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navbar_page a:hover {
+  text-decoration: unset;
+  color: #CC9670;
+  border-radius: 50px;
+}
+
+.navbar_page div {
+  margin-left: 25px;
+  margin-top: 10px;
+  margin-right: auto;
+    display: flex;
+  align-items: center;
+}
+
+/* Style for the link box */
+.login-link {
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid #CC9670;
+  border-radius: 20%;
+  margin-left: 20px;
+}
+
+/* Style for the icon */
+.login-link i {
+  display: inline-block;
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+/* Style for the text */
+.login-link span {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.footer {
+  background-color: #7d7d5a;
+}

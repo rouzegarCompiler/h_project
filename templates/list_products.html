@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    خرید محصول
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center pt-4">لیست محصولات</h1><br><br><br>
+
+{% if products | count >0 %}
+
+<div class="row g-3">
+    {% set index = namespace(value=0) %}
+    {% for product in products %}
+    {% set index.value = index.value + 1 %}
+    <div class="col-12 col-md-6 col-xl-3">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5 class="card-title"><b>محصول شماره {{ index.value }}</b></h5>
+                <hr>
+                <div class="card-text">
+                    <p>تعرفه: {{ product.tariff }}$</p>
+                    <p>تخفیف اولیه: {{ product.profit_first }}$</p>
+                    <p>تخفیف ثانویه: {{ product.profit_second }}$</p>
+                    <p>هزینه محصول: {{ product.cost }}$</p>
+                    <p>daily drawdown: {{ product.daily_drawdown }}%</p>
+                    <p>پلتفرم: Version{{ product.metatrader_platform }}</p>
+                    
+                    {% if current_user.is_authenticated and current_user.role == 1 %}
+                    <button class="btn btn-secondary">
+                        خرید
+                    </button>
+                    {% else %}
+                    <a href="{{ url_for('user.buy_product',item = product.id) }}">
+                        <button class="btn btn-success">
+                            خرید
+                        </button>
+                    </a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    
+</div>
+
+{% else %}
+<p><b>تاکنون محصولی در سامانه ثبت نشده است.</b></p>
+{% endif %}
+
+{% endblock %}

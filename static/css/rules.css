@@ -1,0 +1,82 @@
+
+
+.rules_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  width: 98%;
+  text-align: right;
+  border: 1px solid #CC9670;
+  color: #39495c;
+  font-size: 25px;
+  border-radius: 10px;
+  background-color: #ebebeb;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin-bottom: 80px;
+}
+
+.rules_title {
+  margin: 32px;
+  color: #39495c;
+}
+
+.toggle-button {
+  background-color: white;
+  margin: 20px;
+  border: 1px solid #CC9670;
+  border-radius: 5px;
+}
+
+.limit-text {
+  color: #bd2130;
+}
+
+table {
+  border-collapse: collapse;
+  background-color: white;
+  width: 100%;
+  margin-bottom: 30px;
+  margin-top: 50px;
+  border: 3px solid #CC9670;
+  text-align: center;
+}
+
+th,
+td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #39495c;
+  color: #CC9670;
+  font-weight: bold;
+  font-size: 20px;
+  animation-name: title;
+  animation-duration: 7s;
+  animation-iteration-count: 1;
+}
+tr {
+  font-size: 20px;
+  color: #39495c;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.buy_button{
+  color: darkgreen;
+  border-radius: 50px;
+  font-size: 30px;
+}
+
+@keyframes title {
+  from {color: #39495c;}
+  to {color: #CC9670}
+}
+
+.buy_button:hover {
+  text-decoration: none;
+}
