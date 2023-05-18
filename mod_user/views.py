@@ -4,18 +4,15 @@ from flask_login import login_required, current_user, login_user, logout_user
 
 from app import db
 from . import user
-from .forms import LoginForm, RegisterForm, ChangeInfoForm, TicketForm,CreateOrderForm,ChangePasswordForm
+from .forms import LoginForm, RegisterForm, ChangeInfoForm, TicketForm,CreateOrderForm,ChangePasswordForm,ResetPasswordRequestForm, ResetPasswordForm
 from .models import User, Ticket,Order
-from .utils import user_only
+from .utils import user_only,no_login,send_email_reset_password
 
 from mod_admin.models import Product, DiscountCode
 
 @user.route("/register", methods=["GET", "POST"])
-@user_only
+@no_login
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for("user.panel"))
-
     form = RegisterForm()
     if request.method == 'POST':
         if form.validate_on_submit():
@@ -33,11 +30,8 @@ def register():
 
 
 @user.route("/login", methods=["GET", "POST"])
-@user_only
+@no_login
 def login():
-    if current_user.is_authenticated:
-        return redirect(url_for("user.panel"))
-
     form = LoginForm()
 
     if request.method == 'POST':
@@ -110,7 +104,7 @@ def create_ticket():
                             description=form.description.data)
             current_user.tickets.append(ticket)
             db.session.commit()
-            flash("نظر شما با موفقیت ثبت شد.", category='suceess')
+            flash("نظر شما با موفقیت ثبت شد.", category='success')
             return redirect(url_for("user.panel"))
     return render_template("user/create_ticket.html", form=form)
 
@@ -143,7 +137,7 @@ def buy_product():
                 
                 current_user.orders.append(order)
                 db.session.commit()
-                flash("خرید شما انجام شد. ادمین در اسرع وقت به خرید شما پاسخ خواهد داد", category="success")
+                flash("خرید شما انجام شد. ادمین در اسرع وقت به خرید شما پاسخ خواهد داد.", category="success")
                 
                 return redirect(url_for("user.panel"))
         return render_template("user/buy_product.html", form=form, product_price = selected_product.cost, item_selected = item_selected)
@@ -178,3 +172,34 @@ def change_password():
             return redirect(url_for("user.panel"))
         
     return render_template("user/change_password.html", form = form)
+
+@user.route("/reset_password_request", methods=["GET", "POST"])
+def reset_password_request():
+    form = ResetPasswordRequestForm()
+    if request.method == "POST":
+        if form.validate_on_submit():
+            user = User.query.filter_by(email = form.email.data).first()
+            
+            send_email_reset_password(user)
+            flash("پیامی در خصوص تغییر گذرواژه به ایمیلتان ارسال شد.", category="success")
+
+            return redirect(url_for("user.login"))
+    
+    return render_template("user/reset_password_request.html", form= form)
+
+@user.route("/reset_password/<token>",methods=["GET","POST"])
+@no_login
+def reset_password(token):
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for("home"))
+    
+    form = ResetPasswordForm()
+    if request.method == "POST": 
+        if form.validate_on_submit():
+            user.set_password(form.password.data)
+            db.session.commit()
+            flash("گذرواژه شما با موفقیت تغییر یافت", category="success")
+            return redirect(url_for("user.login"))
+
+    return render_template("user/reset_password.html",form=form)

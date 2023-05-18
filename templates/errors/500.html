@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+خطای سرور
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/500.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="loading" id="500_loading">
+<h1>خطای 500</h1>
+  <h2>سرور با خطا مواجه شد <b>:(</b></h2>
+  <div class="pb-4">
+    <div class="gears">
+        <div class="gear one">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <div class="gear two">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+        <div class="gear three">
+          <div class="bar"></div>
+          <div class="bar"></div>
+          <div class="bar"></div>
+        </div>
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/jquery-3.6.4.min.js') }}"></script>
+<script>
+    $(function() {
+        setTimeout(function(){
+            $('#500_loading').removeClass('loading');
+        }, 1000);
+    });
+
+</script>
+{% endblock %}

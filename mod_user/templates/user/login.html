@@ -9,9 +9,9 @@
 <style>
   body {
     background-image: url("{{ url_for('static',filename='pics/tradechart.jpg')}}");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
   }
 </style>
 {% endblock %}
@@ -55,6 +55,10 @@
             <div class="mb-3">
               <div class="text-center">
                 <div class="col-auto">{{ form.submit(class="btn btn-success btn-lg") }}</div>
+              </div>
+              <div class="mt-4 text-center fw-bold">
+                <div>آیا گذرواژه خود را فراموش کرده اید؟&nbsp;<a href="{{ url_for('user.reset_password_request') }}" class="link-primary">اینجا</a> کلیک کنید.
+                </div>
               </div>
               <div class="mt-4 text-center fw-bold">
                 <div>آیا تاکنون ثبت نام نکرده اید ؟ <a href="{{url_for('user.register')}}" class="link-primary">ثبت نام</a>

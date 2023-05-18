@@ -1,5 +1,11 @@
-from app import db, login
+from jwt import decode as jwt_decode,encode as jwt_encode , ExpiredSignatureError, InvalidSignatureError
+from datetime import datetime, timedelta,timezone
 from werkzeug.security import generate_password_hash, check_password_hash
+
+from app import app,db, login
+
+from .TokenType import Token
+
 from flask_login import UserMixin
 
 
@@ -21,8 +27,32 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-
-
+    
+    def generate_token(self,token_type):
+        return jwt_encode(
+            {
+                "user_id": self.id,
+                "type": token_type,
+                "exp":datetime.now(tz=timezone.utc) + timedelta(seconds=15*60)
+            },
+            key = app.config.get("SECRET_KEY"),
+            algorithm='HS256'
+        )
+    
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            decoded_token = jwt_decode(
+                    jwt= token,
+                    key= app.config["SECRET_KEY"],
+                    algorithms=['HS256']
+            )
+        except (ExpiredSignatureError,InvalidSignatureError):
+            return None
+        
+        if decoded_token.get("type") == Token.ResetPassword.value and decoded_token.get("user_id"):
+            return User.query.filter_by(id = decoded_token.get("user_id")).first()
+    
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))

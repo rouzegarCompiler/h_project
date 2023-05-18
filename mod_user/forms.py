@@ -93,3 +93,17 @@ class ChangePasswordForm(FlaskForm):
     def validate_old_password(self, old_password):
         if not current_user.check_password(old_password.data):
             raise ValidationError("پسورد قبلی به نادرستی وارد شده است.")
+        
+class ResetPasswordRequestForm(FlaskForm):
+    email = EmailField(label='ایمیل',validators=[DataRequired(message="تکمیل فیلد ایمیل الزامی است."),Email("فرمت ایمیل رعایت نشده است")])
+    submit = SubmitField(label='ارسال ایمیل بازیابی رمز عبور')
+
+    def validate_email(self, email):
+        user = User.query.filter(User.email.ilike(self.email.data)).first()
+        if not user:
+            raise ValidationError("کاربری با ایمیل وارد شده یافت نشد.")
+        
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(label='گذرواژه',validators=[DataRequired(message="تکمیل فیلد گذرواژه الزامی است.")])
+    password_confirm = PasswordField(label='تایید گذرواژه',validators=[EqualTo('password',message="تایید گذرواژه با گذرواژه وارد شده یکسان نیست.")])
+    submit = SubmitField(label='تغییر گذرواژه')
